@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 // import connection
-import db from "../config/database.js";
+import db from "../config/database_realtime.js";
 
 // init DataTypes
 const { DataTypes } = Sequelize;
@@ -77,9 +77,5 @@ const Realtime = db.define(
 export default Realtime;
 
 // (async () => {
-//   await db.sync();
+//   await db.sync({ alter: false });
 // })();
-
-(async () => {
-  await db.sync({ alter: false });
-})();

@@ -1,13 +1,15 @@
 // Import model Product
-import Apt1v3NojsUsers from "../models/Apt1NojsUser.js";
-import Apt1v3NojsLoggers from "../models/Apt1Loggers.js";
+import Apt2NojsLoggers from "../models/Apt2Loggers.js";
+import Apt2NojsUsers from "../models/Apt2NojsUser.js";
 import { Sequelize } from "sequelize";
 const Op = Sequelize.Op;
 
-// Get all Apt1v3NojsUsers
-export const getApt1v3NojsUser = async (req, res) => {
+// Get all Apt2NojsUsers
+export const getApt2NojsUser = async (req, res) => {
   try {
-    const response = await Apt1v3NojsUsers.findAll();
+    const response = await Apt2NojsUsers.findAll({
+      order: [["site", "ASC"]],
+    });
     res.status(200).json({ msg: "success", data: response });
   } catch (err) {
     console.error(err);
@@ -15,7 +17,7 @@ export const getApt1v3NojsUser = async (req, res) => {
   }
 };
 
-export const getDataChargeApt1 = async (req, res) => {
+export const getDataChargeApt2 = async (req, res) => {
   try {
     console.log("req.body:", req.body); // Log the request body to see its structure
 
@@ -27,7 +29,7 @@ export const getDataChargeApt1 = async (req, res) => {
     console.log("timeStart:", timeStart);
     console.log("timeEnd:", timeEnd);
 
-    const response = await Apt1v3NojsLoggers.findAll({
+    const response = await Apt2NojsLoggers.findAll({
       attributes: ["nojs_id", "ts", "batt_volt"],
       where: {
         nojs_id: nojsId,
@@ -45,30 +47,7 @@ export const getDataChargeApt1 = async (req, res) => {
   }
 };
 
-export const dayMinusOne = async (req, res) => {
-  // Get the current date
-  const currentDate = new Date();
-
-  // Calculate the date for day -1 (yesterday)
-  const dayMinusOne = new Date(currentDate);
-  dayMinusOne.setDate(currentDate.getDate() - 1);
-
-  const formatTanggal = formatDate(dayMinusOne);
-
-  const timeStart1 = formatTanggal + " 04:00:00";
-  const timeStart2 = formatTanggal + " 04:05:59";
-
-  const timeEnd1 = formatTanggal + " 16:00:00";
-  const timeEnd2 = formatTanggal + " 16:05:59";
-
-  console.log("timeStart1 : " + timeStart1);
-  console.log("timeStart2 : " + timeStart2);
-
-  console.log("timeEnd1 : " + timeEnd1);
-  console.log("timeEnd2 : " + timeEnd2);
-};
-
-export const apt1ChargeData = async (req, res) => {
+export const apt2ChargeData = async (req, res) => {
   try {
     // Get the current date
     const currentDate = new Date();
@@ -108,7 +87,7 @@ export const apt1ChargeData = async (req, res) => {
     var arrDegrasiStart = [];
     let arrChargeData = [];
 
-    const resSiteList = await Apt1v3NojsUsers.findAll({
+    const resSiteList = await Apt2NojsUsers.findAll({
       order: [["site", "ASC"]],
     });
 
@@ -123,7 +102,7 @@ export const apt1ChargeData = async (req, res) => {
       console.log("listSite_name : " + siteName);
 
       //startChargeGetData
-      const startCharge = await Apt1v3NojsLoggers.findAll({
+      const startCharge = await Apt2NojsLoggers.findAll({
         attributes: ["nojs_id", "ts", "batt_volt"],
         where: {
           nojs_id: siteId,
@@ -137,7 +116,7 @@ export const apt1ChargeData = async (req, res) => {
         order: [["ts", "DESC"]],
       });
 
-      const endCharge = await Apt1v3NojsLoggers.findAll({
+      const endCharge = await Apt2NojsLoggers.findAll({
         attributes: ["nojs_id", "ts", "batt_volt"],
         where: {
           nojs_id: siteId,

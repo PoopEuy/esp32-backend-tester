@@ -75,7 +75,3 @@ const Realtime = db.define(
 
 // Export model Realtime
 export default Realtime;
-
-// (async () => {
-//   await db.sync({ alter: false });
-// })();

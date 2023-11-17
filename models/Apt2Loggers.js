@@ -1,12 +1,12 @@
 import { Sequelize } from "sequelize";
 // import connection
-import db2 from "../config/database_apt1v3.js";
+import dbapt2 from "../config/database_apt2.js";
 
 // init DataTypes
 const { DataTypes } = Sequelize;
 
 // Define schema
-const Apt1v3NojsLoggers = db2.define("nojs_loggers", {
+const Apt2NojsLoggers = dbapt2.define("nojs_loggers", {
   ts: {
     type: DataTypes.STRING,
   },
@@ -60,4 +60,4 @@ const Apt1v3NojsLoggers = db2.define("nojs_loggers", {
 });
 
 // Export model Realtime
-export default Apt1v3NojsLoggers;
+export default Apt2NojsLoggers;

@@ -1,41 +1,19 @@
 // Import model Product
-import Apt1v3NojsUsers from "../models/Apt1NojsUser.js";
-import Apt1v3NojsLoggers from "../models/Apt1Loggers.js";
+
+import AptOldNojsUsers from "../models/AptOldNojsUser.js";
+import AptOldLoggers from "../models/Apt1OldLoggers.js";
 import { Sequelize } from "sequelize";
 const Op = Sequelize.Op;
 
-// Get all Apt1v3NojsUsers
-export const getApt1v3NojsUser = async (req, res) => {
+// Get oldapt1
+export const getApt1Old = async (req, res) => {
   try {
-    const response = await Apt1v3NojsUsers.findAll();
-    res.status(200).json({ msg: "success", data: response });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "error", error: err.message });
-  }
-};
-
-export const getDataChargeApt1 = async (req, res) => {
-  try {
-    console.log("req.body:", req.body); // Log the request body to see its structure
-
-    const nojsId = req.body.nojsId;
-    const timeStart = req.body.timeStart;
-    const timeEnd = req.body.timeEnd;
-
-    console.log("nojsId:", nojsId);
-    console.log("timeStart:", timeStart);
-    console.log("timeEnd:", timeEnd);
-
-    const response = await Apt1v3NojsLoggers.findAll({
-      attributes: ["nojs_id", "ts", "batt_volt"],
+    const response = await AptOldNojsUsers.findAll({
+      attributes: ["nojs", "site"],
       where: {
-        nojs_id: nojsId,
-        ts: {
-          [Op.between]: [timeStart, timeEnd],
-        },
+        ehub_version: false,
       },
-      order: [["ts", "DESC"]],
+      order: [["site", "ASC"]],
     });
 
     res.status(200).json({ msg: "success", data: response });
@@ -45,31 +23,39 @@ export const getDataChargeApt1 = async (req, res) => {
   }
 };
 
-export const dayMinusOne = async (req, res) => {
-  // Get the current date
-  const currentDate = new Date();
+export const startChargeApt1Old = async (req, res) => {
+  try {
+    console.log("req.body:", req.body); // Log the request body to see its structure
 
-  // Calculate the date for day -1 (yesterday)
-  const dayMinusOne = new Date(currentDate);
-  dayMinusOne.setDate(currentDate.getDate() - 1);
+    const nojs = "JS73";
+    const timeStart1 = "2023-11-09 04:00:00";
+    const timeStart2 = "2023-11-09 04:04:59";
 
-  const formatTanggal = formatDate(dayMinusOne);
+    const timeEnd1 = "2023-11-09 16:00:00";
+    const timeEnd2 = "2023-11-09 16:04:59";
 
-  const timeStart1 = formatTanggal + " 04:00:00";
-  const timeStart2 = formatTanggal + " 04:05:59";
+    const response = await AptOldLoggers.findAll({
+      attributes: ["nojs", "time_local", "batt_volt1"],
+      where: {
+        nojs: nojs,
+        time_local: {
+          [Op.between]: [timeStart1, timeStart2],
+        },
+      },
+      order: [["time_local", "DESC"]],
+    });
 
-  const timeEnd1 = formatTanggal + " 16:00:00";
-  const timeEnd2 = formatTanggal + " 16:05:59";
-
-  console.log("timeStart1 : " + timeStart1);
-  console.log("timeStart2 : " + timeStart2);
-
-  console.log("timeEnd1 : " + timeEnd1);
-  console.log("timeEnd2 : " + timeEnd2);
+    res.status(200).json({ msg: "success", data: response });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "error", error: err.message });
+  }
 };
 
-export const apt1ChargeData = async (req, res) => {
+export const apt1OldChargeData = async (req, res) => {
   try {
+    console.log("req.body:", req.body); // Log the request body to see its structure
+
     // Get the current date
     const currentDate = new Date();
 
@@ -108,7 +94,11 @@ export const apt1ChargeData = async (req, res) => {
     var arrDegrasiStart = [];
     let arrChargeData = [];
 
-    const resSiteList = await Apt1v3NojsUsers.findAll({
+    const resSiteList = await AptOldNojsUsers.findAll({
+      attributes: ["nojs", "site"],
+      where: {
+        ehub_version: false,
+      },
       order: [["site", "ASC"]],
     });
 
@@ -116,39 +106,33 @@ export const apt1ChargeData = async (req, res) => {
 
     for (let i = 0; i < resSiteList.length; i++) {
       const siteName = resSiteList[i].site;
-      const siteId = resSiteList[i].id;
+      const siteNojs = resSiteList[i].nojs;
 
       jumlahSite = resSiteList.length;
-      console.log("listSite_id : " + siteId);
+      console.log("listSite_nojs : " + siteNojs);
       console.log("listSite_name : " + siteName);
 
       //startChargeGetData
-      const startCharge = await Apt1v3NojsLoggers.findAll({
-        attributes: ["nojs_id", "ts", "batt_volt"],
+      const startCharge = await AptOldLoggers.findAll({
+        attributes: ["nojs", "time_local", "batt_volt1"],
         where: {
-          nojs_id: siteId,
-          batt_volt: {
-            [Op.not]: null,
-          },
-          ts: {
+          nojs: siteNojs,
+          time_local: {
             [Op.between]: [timeStart1, timeStart2],
           },
         },
-        order: [["ts", "DESC"]],
+        order: [["time_local", "DESC"]],
       });
 
-      const endCharge = await Apt1v3NojsLoggers.findAll({
-        attributes: ["nojs_id", "ts", "batt_volt"],
+      const endCharge = await AptOldLoggers.findAll({
+        attributes: ["nojs", "time_local", "batt_volt1"],
         where: {
-          nojs_id: siteId,
-          batt_volt: {
-            [Op.not]: null,
-          },
-          ts: {
+          nojs: siteNojs,
+          time_local: {
             [Op.between]: [timeEnd1, timeEnd2],
           },
         },
-        order: [["ts", "DESC"]],
+        order: [["time_local", "DESC"]],
       });
 
       console.log("startCharge.length : " + startCharge.length);
@@ -158,24 +142,20 @@ export const apt1ChargeData = async (req, res) => {
         timeStartCharge = timeStart1;
         siteNameStartCharge = siteName;
         battVoltStartCharge = -1;
-
-        console.log("lengstart 0");
       } else {
-        timeStartCharge = startCharge[0].ts;
+        timeStartCharge = startCharge[0].time_local;
         siteNameStartCharge = siteName;
-        battVoltStartCharge = startCharge[0].batt_volt;
+        battVoltStartCharge = startCharge[0].batt_volt1 / 100;
       }
 
       if (endCharge.length === 0) {
         timeEndCharge = timeEnd1;
         siteNameEndCharge = siteName;
         battVoltEndCharge = -1;
-
-        console.log("lengend 0");
       } else {
-        timeEndCharge = endCharge[0].ts;
+        timeEndCharge = endCharge[0].time_local;
         siteNameEndCharge = siteName;
-        battVoltEndCharge = endCharge[0].batt_volt;
+        battVoltEndCharge = endCharge[0].batt_volt1 / 100;
       }
 
       if (startCharge.length === 0 || endCharge.length === 0) {
@@ -187,11 +167,11 @@ export const apt1ChargeData = async (req, res) => {
         voltDegradationFix = voltDegradation.toFixed(2);
       }
 
-      // const voltDegradation = battVoltEndCharge - battVoltStartCharge;
-      // const voltDegradationFix = voltDegradation.toFixed(2);
+      //   const voltDegradation = battVoltEndCharge - battVoltStartCharge;
+      //   const voltDegradationFix = voltDegradation.toFixed(2);
 
       const chargeData = {
-        siteID: siteId,
+        siteNojs: siteNojs,
         siteName: siteName,
         // siteNameStart: siteNameStartCharge,
         timeStart: timeStartCharge,

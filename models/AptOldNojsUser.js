@@ -1,19 +1,18 @@
 import { Sequelize } from "sequelize";
 // import connection
-import db2 from "../config/database_apt1v3.js";
+import db3 from "../config/database_aptOld.js";
 
 // init DataTypes
 const { DataTypes } = Sequelize;
 
 // Define schema
-const Apt1v3NojsUsers = db2.define("nojs_users", {
+const AptOldNojsUsers = db3.define("nojs_users", {
   nojs: {
     type: DataTypes.STRING,
   },
   site: {
     type: DataTypes.STRING,
   },
-
   provinsi: {
     type: DataTypes.STRING,
   },
@@ -32,41 +31,29 @@ const Apt1v3NojsUsers = db2.define("nojs_users", {
   longitude: {
     type: DataTypes.STRING,
   },
-  id_lvd_vsat: {
+  id_lvdvsat: {
     type: DataTypes.INTEGER,
   },
   id_ping: {
     type: DataTypes.INTEGER,
   },
-  id_batt_volt: {
+  id_batvolt: {
     type: DataTypes.INTEGER,
   },
-  id_vsat_curr: {
+  id_vsatcurr: {
     type: DataTypes.INTEGER,
   },
-  id_bts_curr: {
+  id_btscurr: {
     type: DataTypes.INTEGER,
   },
-  gs: {
+  no_urut: {
     type: DataTypes.INTEGER,
-  },
-  darat: {
-    type: DataTypes.STRING,
-  },
-  laut: {
-    type: DataTypes.STRING,
-  },
-  udara: {
-    type: DataTypes.STRING,
   },
   ehub_version: {
-    type: DataTypes.STRING,
+    type: DataTypes.BOOLEAN,
   },
   panel2_type: {
-    type: DataTypes.STRING,
-  },
-  kota: {
-    type: DataTypes.STRING,
+    type: DataTypes.BOOLEAN,
   },
   createdAt: {
     type: DataTypes.DATE,
@@ -79,4 +66,4 @@ const Apt1v3NojsUsers = db2.define("nojs_users", {
 });
 
 // Export model Realtime
-export default Apt1v3NojsUsers;
+export default AptOldNojsUsers;

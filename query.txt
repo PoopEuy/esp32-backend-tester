@@ -1,0 +1,4 @@
+SELECT nojs_id, ts, batt_volt FROM nojs_loggers AS nojs_loggers WHERE nojs_loggers.nojs_id = 2894 AND nojs_loggers.ts BETWEEN '2023-11-09 04:00:00' AND '2023-11-09 04:04:59' ORDER BY nojs_loggers.ts DESC;
+
+
+SELECT nojs, time_local, batt_volt1 FROM nojs_loggers AS nojs_loggers WHERE nojs_loggers.nojs = 'JS49' AND nojs_loggers.time_local BETWEEN '2023-11-09 04:00:00' AND '2023-11-09 04:04:59' ORDER BY nojs_loggers.time_local DESC;

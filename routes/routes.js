@@ -50,7 +50,6 @@ router.get("/nojsUserApt1v3", getApt1v3NojsUser);
 router.post("/getDegradasiApt1", getDegradasiApt1);
 router.get("/apt1ProsesDegradasi", apt1ProsesDegradasi);
 router.get("/dayMinusOne", dayMinusOne);
-dayMinusOne;
 
 // Degradasi  Apt2 routes
 router.get("/nojsUserApt2", getApt2NojsUser);

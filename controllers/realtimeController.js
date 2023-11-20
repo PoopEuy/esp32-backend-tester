@@ -1,8 +1,8 @@
 // Import model Product
 import Realtime from "../models/Realtime.js";
-import Degradasi from "../models/degradasi.js";
+import Degradasi from "../models/Degradasi.js";
 import { Sequelize } from "sequelize";
-const op = Sequelize.Op;
+const OP = Sequelize.Op;
 
 // Get semua product
 export const getRealtime = async (req, res) => {

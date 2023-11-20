@@ -1,7 +1,7 @@
 // Import model Product
 import Apt2NojsLoggers from "../models/Apt2Loggers.js";
 import Apt2NojsUsers from "../models/Apt2NojsUser.js";
-import Degradasi from "../models/degradasi.js";
+import Degradasi from "../models/Degradasi.js";
 import { Sequelize } from "sequelize";
 const Op = Sequelize.Op;
 

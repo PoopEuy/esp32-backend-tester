@@ -2,7 +2,7 @@
 
 import AptOldNojsUsers from "../models/AptOldNojsUser.js";
 import AptOldLoggers from "../models/Apt1OldLoggers.js";
-import Degradasi from "../models/degradasi.js";
+import Degradasi from "../models/Degradasi.js";
 import { Sequelize } from "sequelize";
 const Op = Sequelize.Op;
 

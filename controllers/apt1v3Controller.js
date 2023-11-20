@@ -1,6 +1,7 @@
 // Import model Product
 import Apt1v3NojsUsers from "../models/Apt1NojsUser.js";
 import Apt1v3NojsLoggers from "../models/Apt1Loggers.js";
+import Degradasi from "../models/degradasi.js";
 import { Sequelize } from "sequelize";
 const Op = Sequelize.Op;
 
@@ -15,7 +16,7 @@ export const getApt1v3NojsUser = async (req, res) => {
   }
 };
 
-export const getDataChargeApt1 = async (req, res) => {
+export const getDegradasiApt1 = async (req, res) => {
   try {
     console.log("req.body:", req.body); // Log the request body to see its structure
 
@@ -68,7 +69,7 @@ export const dayMinusOne = async (req, res) => {
   console.log("timeEnd2 : " + timeEnd2);
 };
 
-export const apt1ChargeData = async (req, res) => {
+export const apt1ProsesDegradasi = async (req, res) => {
   try {
     // Get the current date
     const currentDate = new Date();
@@ -77,10 +78,14 @@ export const apt1ChargeData = async (req, res) => {
     const dayMinusOne = new Date(currentDate);
     dayMinusOne.setDate(currentDate.getDate() - 1);
 
-    const formatTanggal = formatDate(dayMinusOne);
+    const dayNow = new Date(currentDate);
+    dayNow.setDate(currentDate.getDate());
 
-    const timeStart1 = formatTanggal + " 04:00:00";
-    const timeStart2 = formatTanggal + " 04:04:59";
+    const formatTanggal = formatDate(dayMinusOne);
+    const formatToday = formatDate(dayNow);
+
+    const timeStart1 = formatToday + " 04:00:00";
+    const timeStart2 = formatToday + " 04:04:59";
 
     const timeEnd1 = formatTanggal + " 16:00:00";
     const timeEnd2 = formatTanggal + " 16:04:59";
@@ -92,7 +97,7 @@ export const apt1ChargeData = async (req, res) => {
     console.log("timeEnd2 : " + timeEnd2);
 
     let jumlahSite;
-    let counterSiteStart = 0;
+    let counterSite = 0;
 
     let timeStartCharge;
     let siteNameStartCharge;
@@ -190,29 +195,40 @@ export const apt1ChargeData = async (req, res) => {
       // const voltDegradation = battVoltEndCharge - battVoltStartCharge;
       // const voltDegradationFix = voltDegradation.toFixed(2);
 
-      const chargeData = {
-        siteID: siteId,
-        siteName: siteName,
-        // siteNameStart: siteNameStartCharge,
-        timeStart: timeStartCharge,
-        battVoltStart: battVoltStartCharge,
-        // siteNameEnd: siteNameEndCharge,
-        timeEnd: timeEndCharge,
-        battVoltEnd: battVoltEndCharge,
-        voltDegradation: voltDegradationFix,
-      };
+      // const chargeData = {
+      //   siteID: siteId,
+      //   siteName: siteName,
+      //   // siteNameStart: siteNameStartCharge,
+      //   timeStart: timeStartCharge,
+      //   battVoltStart: battVoltStartCharge,
+      //   // siteNameEnd: siteNameEndCharge,
+      //   timeEnd: timeEndCharge,
+      //   battVoltEnd: battVoltEndCharge,
+      //   voltDegradation: voltDegradationFix,
+      // };
 
-      arrChargeData.push(chargeData);
-      counterSiteStart = counterSiteStart + 1;
-      if (jumlahSite === counterSiteStart) {
+      const chargeData = {
+        site_name: siteName,
+        charging_start_time: timeStartCharge, // Replace with the actual date and time
+        batt_volt_start: battVoltStartCharge, // Replace with the actual value for batt_volt_start
+        charging_end_time: timeEndCharge, // Replace with the actual date and time
+        batt_volt_end: battVoltEndCharge, // Replace with the actual value for batt_volt_end
+        volt_degradation: voltDegradationFix, // Replace with the actual value for batt_volt_end
+      };
+      const createDegradasi = await Degradasi.create(chargeData);
+
+      arrChargeData.push(createDegradasi);
+      counterSite = counterSite + 1;
+      if (jumlahSite === counterSite) {
         console.log(
-          "kirim response, jumlah site :  " +
-            jumlahSite +
-            " " +
-            counterSiteStart
+          "kirim response, jumlah site :  " + jumlahSite + " " + counterSite
         );
 
-        res.status(200).json({ msg: "success", data: arrChargeData });
+        res.status(200).json({
+          msg: "success Create Degradasi Apt1v3",
+          totalSite: counterSite,
+          data: arrChargeData,
+        });
       } else {
         console.log("belum kirim response");
       }

@@ -14,7 +14,7 @@ import {
 import {
   getApt2NojsUser,
   getDegradasiApt2,
-  apt2DegradasiData,
+  apt2ProsesDegradasi,
 } from "../controllers/apt2Controller.js";
 
 import {
@@ -55,7 +55,7 @@ dayMinusOne;
 // Degradasi  Apt2 routes
 router.get("/nojsUserApt2", getApt2NojsUser);
 router.post("/getDegradasiApt2", getDegradasiApt2);
-router.get("/apt2DegradasiData", apt2DegradasiData);
+router.get("/apt2ProsesDegradasi", apt2ProsesDegradasi);
 
 //realtime
 router.post("/createDegradasi", createDegradasi);

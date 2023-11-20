@@ -48,7 +48,7 @@ export const getDegradasiApt2 = async (req, res) => {
   }
 };
 
-export const apt2DegradasiData = async (req, res) => {
+export const apt2ProsesDegradasi = async (req, res) => {
   try {
     // Get the current date
     const currentDate = new Date();

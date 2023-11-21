@@ -88,7 +88,7 @@ async function prosesApt1v3() {
 
 async function prosesApt2() {
   console.log("masuk proses data Apt2");
-  const res = await axios.get(`${APP_HOST}:${PORT}/apt2DegradasiData`);
+  const res = await axios.get(`${APP_HOST}:${PORT}/apt2ProsesDegradasi`);
   const mess = await res.data.msg;
   console.log("mess : " + mess);
 }

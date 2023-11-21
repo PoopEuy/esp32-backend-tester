@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  degradasi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: degradasi-app
+    restart: unless-stopped
+    volumes:
+      - ./src:/app/src
+      - node_modules:/usr/src/app/node_modules
+    ports:
+      - "3069:3069"
+    networks:
+      - degradasi-app-network
+  
+networks:
+  degradasi-app-network:
+
+volumes:
+  node_modules:
+  degradasi-app-volume:

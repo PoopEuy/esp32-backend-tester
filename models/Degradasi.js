@@ -19,6 +19,12 @@ const Degradasi = db.define(
     batt_volt_start: {
       type: DataTypes.DOUBLE,
     },
+    status: {
+      type: DataTypes.BOOLEAN,
+    },
+    note: {
+      type: DataTypes.STRING,
+    },
     charging_end_time: {
       type: DataTypes.STRING,
     },
@@ -47,3 +53,7 @@ const Degradasi = db.define(
 
 // Export model Degradasi
 export default Degradasi;
+
+// (async () => {
+//   await db.sync({ alter: false });
+// })();

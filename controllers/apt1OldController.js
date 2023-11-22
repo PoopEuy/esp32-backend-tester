@@ -122,6 +122,9 @@ export const apt1OldProsesDegradasi = async (req, res) => {
         attributes: ["nojs", "time_local", "batt_volt1"],
         where: {
           nojs: siteNojs,
+          batt_volt1: {
+            [Op.not]: null,
+          },
           time_local: {
             [Op.between]: [timeStart1, timeStart2],
           },

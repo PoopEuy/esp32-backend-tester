@@ -56,17 +56,17 @@ app.listen(PORT, async function () {
 async function cron_filter() {
   console.log("masuk cron filter");
 
-  await cron.schedule("00 05 05 * * *", () => {
+  await cron.schedule("00 05 06 * * *", () => {
     console.log("running a task cron aptold: ");
     prosesAptOld();
   });
 
-  await cron.schedule("00 10 05 * * *", () => {
+  await cron.schedule("00 10 06 * * *", () => {
     console.log("running a task cron apt1v3: ");
     prosesApt1v3();
   });
 
-  await cron.schedule("00 15 04 * * *", () => {
+  await cron.schedule("00 15 06 * * *", () => {
     console.log("running a task cron apt2: ");
     prosesApt2();
   });

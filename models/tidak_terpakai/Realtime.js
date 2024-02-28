@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 // import connection
-import db from "../config/database_realtime.js";
+import db from "../../config/database_realtime.js";
 
 // init DataTypes
 const { DataTypes } = Sequelize;

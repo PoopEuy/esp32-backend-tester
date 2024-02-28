@@ -7,8 +7,6 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 
-import * as cron from "node-cron";
-
 //env use
 
 const PORT = process.env.PORT;
@@ -42,7 +40,7 @@ app.listen(PORT, async function () {
   }
 });
 
-// epnggunaan node cron :
+// penggunaan node cron :
 //  # ┌────────────── second (optional)
 //  # │ ┌──────────── minute
 //  # │ │ ┌────────── hour
@@ -55,40 +53,4 @@ app.listen(PORT, async function () {
 
 async function cron_filter() {
   console.log("masuk cron filter");
-
-  await cron.schedule("00 05 06 * * *", () => {
-    console.log("running a task cron aptold: ");
-    prosesAptOld();
-  });
-
-  await cron.schedule("00 10 06 * * *", () => {
-    console.log("running a task cron apt1v3: ");
-    prosesApt1v3();
-  });
-
-  await cron.schedule("00 15 06 * * *", () => {
-    console.log("running a task cron apt2: ");
-    prosesApt2();
-  });
-}
-
-async function prosesAptOld() {
-  console.log("masuk proses data AptOld");
-  const res = await axios.get(`${APP_HOST}:${PORT}/apt1OldProsesDegradasi`);
-  const mess = await res.data.msg;
-  console.log("mess : " + mess);
-}
-
-async function prosesApt1v3() {
-  console.log("masuk proses data Apt1v3");
-  const res = await axios.get(`${APP_HOST}:${PORT}/apt1ProsesDegradasi`);
-  const mess = await res.data.msg;
-  console.log("mess : " + mess);
-}
-
-async function prosesApt2() {
-  console.log("masuk proses data Apt2");
-  const res = await axios.get(`${APP_HOST}:${PORT}/apt2ProsesDegradasi`);
-  const mess = await res.data.msg;
-  console.log("mess : " + mess);
 }

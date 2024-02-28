@@ -8,6 +8,7 @@ import {
   restartKey,
   getModbusInfo,
   getDeviceInfo,
+  getChunkData,
 } from "../controllers/espController.js";
 
 // init express router
@@ -25,6 +26,7 @@ router.get("/about", About);
 router.post("/api/restart", restartKey);
 router.get("/api/get-modbus-info", getModbusInfo);
 router.get("/api/get-device-info", getDeviceInfo);
+router.get("/api/get-data", getChunkData);
 
 // export default router
 export default router;

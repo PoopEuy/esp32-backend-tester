@@ -80,6 +80,7 @@ export const getDeviceInfo = async (req, res) => {
 //   }
 // };
 
+//menggunaka fetch
 export const getChunkData = async (req, res) => {
   try {
     const response = await fetch(`${espUrl}/api/get-data`);
